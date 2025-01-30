@@ -27,8 +27,8 @@ return new class extends Migration
             $table->string('overridePostCode', 50)->nullable();
             $table->integer('listingExpiry')->unsigned();
             $table->integer('runId')->unsigned();
-            $table->timestamp('DATE_INSERTED')->useCurrent();
-            $table->timestamp('DATE_UPDATED')->useCurrent();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
             $table->boolean('ACTIVE')->default(true);
         });
     }
