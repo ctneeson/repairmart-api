@@ -18,7 +18,15 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->timestamps();
+            $table->string('addressLine1', 500)->nullable();
+            $table->string('addressLine2', 500)->nullable();
+            $table->bigInteger('countryId')->unsigned()->nullable();
+            $table->string('postCode', 50)->nullable();
+            $table->bigInteger('accountTypeId')->unsigned();
+            $table->bigInteger('runId')->unsigned();
+            $table->boolean('ACTIVE')->default(true);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

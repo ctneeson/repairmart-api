@@ -13,23 +13,23 @@ return new class extends Migration
     {
         Schema::create('listings', function (Blueprint $table) {
             $table->id('listingId');
-            $table->integer('userId')->unsigned();
-            $table->integer('listingStatusId')->unsigned();
-            $table->integer('manufacturerId')->unsigned();
+            $table->bigInteger('userId')->unsigned();
+            $table->bigInteger('listingStatusId')->unsigned();
+            $table->bigInteger('manufacturerId')->unsigned();
             $table->string('listingTitle', 500);
             $table->string('listingDetail', 4000);
-            $table->integer('listingBudgetCurrencyId')->unsigned()->nullable();
+            $table->bigInteger('listingBudgetCurrencyId')->unsigned()->nullable();
             $table->decimal('listingBudget', 10, 2)->nullable();
             $table->boolean('useDefaultLocation')->default(true);
             $table->string('overrideAddressLine1', 500)->nullable();
             $table->string('overrideAddressLine2', 500)->nullable();
-            $table->integer('overrideCountryId')->unsigned()->nullable();
+            $table->bigInteger('overrideCountryId')->unsigned()->nullable();
             $table->string('overridePostCode', 50)->nullable();
             $table->integer('listingExpiry')->unsigned();
-            $table->integer('runId')->unsigned();
+            $table->bigInteger('runId')->unsigned();
+            $table->boolean('ACTIVE')->default(true);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
-            $table->boolean('ACTIVE')->default(true);
         });
     }
 
