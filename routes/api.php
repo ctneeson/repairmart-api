@@ -1,26 +1,25 @@
 <?php
 
-use App\Http\Controllers\ListingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+use App\Http\Controllers\API\RegisterController;
+use App\Http\Controllers\ListingController;
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+Route::get('/user', function (Request $request) {
     return $request->user();
+})->middleware('auth:sanctum');
+
+Route::controller(RegisterController::class)->group(function(){
+    Route::post('register', 'register');
+    Route::post('login', 'login');
+});
+         
+Route::middleware('auth:sanctum')->group( function () {
+    Route::resource('listings', ListingController::class);
 });
 
-Route::get('listings', [ListingsController::class, 'index'])->name('listings.index');
-Route::get('listings/{listing}', [ListingsController::class, 'show'])->name('listings.show');
-Route::post('listings', [ListingsController::class, 'store'])->name('listings.store');
-Route::put('listings/{listing}', [ListingsController::class, 'update'])->name('listings.update');
-Route::delete('listings/{listing}', [ListingsController::class, 'destroy'])->name('listings.destroy');
+// Route::apiResource('listings', ListingController::class);
+// Route::post('/register', [AuthController::class, 'register']);
+// Route::post('/login', [AuthController::class, 'login']);
+// Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
