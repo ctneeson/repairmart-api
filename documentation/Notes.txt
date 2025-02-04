@@ -1,0 +1,2 @@
+- Laravel Stored Procedure
+https://madhavendra-dutt.medium.com/create-and-use-stored-procedure-in-laravel-3254ccfe0221
