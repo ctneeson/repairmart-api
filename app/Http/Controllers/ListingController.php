@@ -19,9 +19,19 @@ class ListingController extends BaseController
      */
     public function index(): JsonResponse
     {
-        $listings = Listing::all();
-    
-        return $this->sendResponse(ListingResource::collection($listings), 'Listings retrieved successfully.');
+        $errMessage = '';
+        $errInd = 0;
+
+        $listings = DB::select('EXEC sp_getListings @ERR_MESSAGE = :ERR_MESSAGE OUTPUT, @ERR_IND = :ERR_IND OUTPUT', [
+            'ERR_MESSAGE' => &$errMessage,
+            'ERR_IND' => &$errInd
+        ]);
+
+        if ($errInd == 1) {
+            return $this->sendError('Error executing stored procedure.', $errMessage);
+        }
+
+        return $this->sendResponse($listings, 'Listings retrieved successfully.');
     }
 
     /**
