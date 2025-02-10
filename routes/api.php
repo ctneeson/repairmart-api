@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -15,7 +16,9 @@ Route::controller(RegisterController::class)->group(function(){
     Route::post('login', 'login');
     Route::post('logout', 'logout')->middleware('auth:sanctum');
 });
-         
+
+Route::middleware('auth:sanctum')->get('product-classifications', [ProductController::class, 'index']);
+
 Route::resource('listings', ListingController::class);
 
 // Route::middleware('auth:sanctum')->group( function () {
