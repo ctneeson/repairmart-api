@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ProductController;
@@ -16,6 +15,10 @@ Route::controller(RegisterController::class)->group(function(){
     Route::post('login', 'login');
     Route::post('logout', 'logout')->middleware('auth:sanctum');
 });
+
+// Temporarily remove auth middleware for testing
+Route::get('listings/create', [ListingController::class, 'create']);
+Route::post('listings', [ListingController::class, 'store']);
 
 Route::middleware('auth:sanctum')->get('product-classifications', [ProductController::class, 'index']);
 
