@@ -35,6 +35,28 @@ class ListingController extends BaseController
     }
 
     /**
+     * Show the form for creating a new listing.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function create(): JsonResponse
+    {
+        $errMessage = '';
+        $errInd = 0;
+
+        $productClassifications = DB::select('EXEC sp_getProductClassification @ERR_MESSAGE = :ERR_MESSAGE OUTPUT, @ERR_IND = :ERR_IND OUTPUT', [
+            'ERR_MESSAGE' => &$errMessage,
+            'ERR_IND' => &$errInd
+        ]);
+
+        if ($errInd == 1) {
+            return $this->sendError('Error executing stored procedure.', $errMessage);
+        }
+
+        return $this->sendResponse($productClassifications, 'Product classifications retrieved successfully.');
+    }
+        
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

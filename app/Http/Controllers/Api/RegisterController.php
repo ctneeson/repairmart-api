@@ -20,8 +20,8 @@ class RegisterController extends BaseController
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8',
             'c_password' => 'required|same:password',
             'accountTypeId' => 'required|integer',
             'runId' => 'required|integer',
@@ -59,7 +59,7 @@ class RegisterController extends BaseController
         } 
     }
 
-        /**
+    /**
      * Logout api
      *
      * @return \Illuminate\Http\Response

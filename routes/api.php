@@ -12,15 +12,15 @@ Route::get('/user', function (Request $request) {
 
 Route::controller(RegisterController::class)->group(function(){
     Route::post('register', 'register');
-    Route::post('login', 'login');
+    Route::post('login', 'login')->name('login');
     Route::post('logout', 'logout')->middleware('auth:sanctum');
 });
 
-// Temporarily remove auth middleware for testing
-Route::get('listings/create', [ListingController::class, 'create']);
-Route::post('listings', [ListingController::class, 'store']);
-
-Route::middleware('auth:sanctum')->get('product-classifications', [ProductController::class, 'index']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('listings/create', [ListingController::class, 'create']);
+    Route::post('listings', [ListingController::class, 'store']);
+    Route::get('product-classifications', [ProductController::class, 'index']);
+});
 
 Route::resource('listings', ListingController::class);
 
