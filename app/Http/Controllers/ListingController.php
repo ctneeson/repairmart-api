@@ -130,13 +130,24 @@ class ListingController extends BaseController
      */
     public function show($id): JsonResponse
     {
-        $listing = Listing::find($id);
-  
-        if (is_null($listing)) {
+        $errMessage = '';
+        $errInd = 0;
+
+        $listing = DB::select('EXEC sp_getListingById @inp_listingId = :inp_listingId, @ERR_MESSAGE = :ERR_MESSAGE OUTPUT, @ERR_IND = :ERR_IND OUTPUT', [
+            'inp_listingId' => $id,
+            'ERR_MESSAGE' => &$errMessage,
+            'ERR_IND' => &$errInd
+        ]);
+
+        if ($errInd == 1) {
+            return $this->sendError('Error executing stored procedure.', $errMessage);
+        }
+
+        if (empty($listing)) {
             return $this->sendError('Listing not found.');
         }
-   
-        return $this->sendResponse(new ListingResource($listing), 'Listing retrieved successfully.');
+
+        return $this->sendResponse(new ListingResource($listing[0]), 'Listing retrieved successfully.');
     }
     
     /**
