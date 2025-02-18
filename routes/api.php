@@ -23,7 +23,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('product-classifications', [ProductController::class, 'index']);
 });
 
-Route::resource('listings', ListingController::class);
+Route::get('listings/{id}', [ListingController::class, 'show']);
+Route::get('listings', [ListingController::class, 'index']);
+// Route::resource('listings', ListingController::class);
 
 // Route::middleware('auth:sanctum')->group( function () {
 //     Route::resource('listings', ListingController::class);

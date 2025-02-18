@@ -9,6 +9,7 @@ use Validator;
 use App\Http\Resources\ListingResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ListingController extends BaseController
 {
@@ -130,6 +131,8 @@ class ListingController extends BaseController
      */
     public function show($id): JsonResponse
     {
+        Log::info('GET /listings/{$id} request received', ['id' => $id]);
+
         $errMessage = '';
         $errInd = 0;
 
@@ -147,7 +150,11 @@ class ListingController extends BaseController
             return $this->sendError('Listing not found.');
         }
 
-        return $this->sendResponse(new ListingResource($listing[0]), 'Listing retrieved successfully.');
+        // Convert the result to an array
+        $listingArray = (array) $listing[0];
+
+        Log::info('Request processed successfully', ['listing' => $listingArray]);
+        return $this->sendResponse(new ListingResource((object) $listingArray), 'Listing retrieved successfully.');
     }
     
     /**

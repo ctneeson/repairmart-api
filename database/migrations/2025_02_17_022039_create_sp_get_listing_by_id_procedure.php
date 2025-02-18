@@ -20,8 +20,7 @@ return new class extends Migration
         CREATE PROCEDURE sp_getListingById
         @inp_listingId bigint,
         @ERR_MESSAGE nvarchar(500) OUTPUT,
-        @ERR_IND BIT OUTPUT,
-        @out_runId bigint OUTPUT
+        @ERR_IND BIT OUTPUT
         AS
         BEGIN
 
